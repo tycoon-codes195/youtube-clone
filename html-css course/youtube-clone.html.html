@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DHEERAJ WEBSITE</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Exercise Clone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Roboto, Arial, sans-serif;
+    }
+
+    body {
+      padding-top: 60px;
+      padding-left: 96px;
+      padding-right: 24px;
+      background-color: #f9f9f9;
+    }
+
+    .header {
+      height: 55px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      border-bottom: 1px solid #e5e5e5;
+      z-index: 100;
+    }
+
+    .left-section {
+      display: flex;
+      align-items: center;
+    }
+
+    .hamburger-menu {
+      font-size: 20px;
+      border: none;
+      background: none;
+      margin-left: 24px;
+      margin-right: 24px;
+      cursor: pointer;
+    }
+
+    .youtube-logo {
+      height: 20px;
+      font-weight: bold;
+      color: red;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 18px;
+    }
+
+    .middle-section {
+      flex: 1;
+      margin-left: 30px;
+      margin-right: 35px;
+      max-width: 500px;
+      display: flex;
+      align-items: center;
+    }
+
+    .search-bar {
+      flex: 1;
+      height: 36px;
+      padding-left: 10px;
+      font-size: 16px;
+      border: 1px solid #cccccc;
+      border-radius: 2px 0 0 2px;
+      box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+      width: 0;
+    }
+
+    .search-button,
+    .voice-search-button {
+      height: 36px;
+      border: 1px solid #cccccc;
+      background-color: #f8f8f8;
+      cursor: pointer;
+    }
+
+    .search-button {
+      width: 64px;
+      border-left: none;
+      border-radius: 0 2px 2px 0;
+    }
+
+    .voice-search-button {
+      width: 36px;
+      border-radius: 50%;
+      border: none;
+      margin-left: 10px;
+    }
+
+    .right-section {
+      width: 180px;
+      margin-right: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .right-section button {
+      border: none;
+      background: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #555;
+    }
+
+    .notifications-container {
+      position: relative;
+    }
+
+    .notifications-count {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background-color: #cc0000;
+      color: white;
+      font-size: 10px;
+      padding: 2px 5px;
+      border-radius: 10px;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      top: 55px;
+      background-color: white;
+      width: 72px;
+      z-index: 200;
+      padding-top: 5px;
+    }
+
+    .sidebar-link {
+      height: 74px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .sidebar-link:hover {
+      background-color: #e5e5e5;
+    }
+
+    .sidebar-icon {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .sidebar-link div {
+      font-size: 10px;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      column-gap: 16px;
+      row-gap: 40px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 750px) {
+      .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1000px) {
+      .video-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .video-card {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .thumbnail-container {
+      position: relative;
+      margin-bottom: 8px;
+      background-color: #ddd;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .thumbnail {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-time {
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 4px;
+      border-radius: 4px;
+    }
+
+    .video-info-grid {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      column-gap: 12px;
+    }
+
+    .profile-picture {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #bbb;
+    }
+
+    .video-title {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 20px;
+      margin-bottom: 6px;
+      color: #0f0f0f;
+    }
+
+    .video-author,
+    .video-stats {
+      font-size: 12px;
+      color: #606060;
+    }
+
+    .video-author {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="left-section">
+      <button class="hamburger-menu">&#9776;</button>
+      <div class="youtube-logo">&#9654; <strong>YouTube</strong></div>
+    </div>
+
+    <div class="middle-section">
+      <input class="search-bar" type="text" placeholder="Search">
+      <button class="search-button">&#128269;</button>
+      <button class="voice-search-button">&#127908;</button>
+    </div>
+
+    <div class="right-section">
+      <button class="upload-button">&#43;</button>
+      <button class="apps-button">&#9638;</button>
+      <div class="notifications-container">
+        <button class="notifications-button">&#128276;</button>
+        <div class="notifications-count">3</div>
+      </div>
+      <div class="user-avatar"></div>
+    </div>
+  </header>
+
+  <nav class="sidebar">
+    <div class="sidebar-link">
+      <span class="sidebar-icon">&#8962;</span>
+      <div>Home</div>
+    </div>
+    <div class="sidebar-link">
+      <span class="sidebar-icon">&#129517;</span>
+      <div>Explore</div>
+    </div>
+    <div class="sidebar-link">
+      <span class="sidebar-icon">&#128249;</span>
+      <div>Subscriptions</div>
+    </div>
+    <div class="sidebar-link">
+      <span class="sidebar-icon">&#9733;</span>
+      <div>Originals</div>
+    </div>
+    <div class="sidebar-link">
+      <span class="sidebar-icon">&#9835;</span>
+      <div>YouTube Music</div>
+    </div>
+    <div class="sidebar-link">
+      <span class="sidebar-icon">&#128451;</span>
+      <div>Library</div>
+    </div>
+  </nav>
+
+  <main class="video-grid">
+
+    <a class="video-card" href="https://www.youtube.com/watch?v=n2RNcPRtAiY" target="_blank">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://supersimple.dev/exercises/youtube/thumbnails/thumbnail-1.webp" alt="Thumbnail">
+        <div class="video-time">14:20</div>
+      </div>
+      <div class="video-info-grid">
+        <img class="profile-picture" src="https://supersimple.dev/exercises/youtube/channel-pictures/channel-1.jpeg" alt="Avatar">
+        <div class="video-info">
+          <p class="video-title">Talking Tech and AI with Google CEO Sundar Pichai!</p>
+          <p class="video-author">Marques Brownlee</p>
+          <p class="video-stats">3.4M views &#183; 6 months ago</p>
+        </div>
+      </div>
+    </a>
+
+    
+    <a class="video-card" href="https://www.youtube.com/watch?v=mP0RAo9SKZk" target="_blank">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://supersimple.dev/exercises/youtube/thumbnails/thumbnail-2.webp" alt="Thumbnail">
+        <div class="video-time">8:22</div>
+      </div>
+      <div class="video-info-grid">
+        <img class="profile-picture" src="https://supersimple.dev/exercises/youtube/channel-pictures/channel-2.jpeg" alt="Avatar">
+        <div class="video-info">
+          <p class="video-title">Try Not To Laugh Challenge #9</p>
+          <p class="video-author">Markiplier</p>
+          <p class="video-stats">19M views &#183; 4 years ago</p>
+        </div>
+      </div>
+    </a>
+
+    
+    <a class="video-card" href="https://www.youtube.com/watch?v=FgjPQQeTh1w" target="_blank">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://supersimple.dev/exercises/youtube/thumbnails/thumbnail-3.webp" alt="Thumbnail">
+        <div class="video-time">9:13</div>
+      </div>
+      <div class="video-info-grid">
+        <img class="profile-picture" src="https://supersimple.dev/exercises/youtube/channel-pictures/channel-3.jpeg" alt="Avatar">
+        <div class="video-info">
+          <p class="video-title">Crazy Tik Toks Taken Moments Before DISASTER</p>
+          <p class="video-author">SSSniperWolf</p>
+          <p class="video-stats">12M views &#183; 1 year ago</p>
+        </div>
+      </div>
+    </a>
+
+    
+    <a class="video-card" href="https://www.youtube.com/watch?v=094y1Z2wpJg" target="_blank">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://supersimple.dev/exercises/youtube/thumbnails/thumbnail-4.webp" alt="Thumbnail">
+        <div class="video-time">22:09</div>
+      </div>
+      <div class="video-info-grid">
+        <img class="profile-picture" src="https://supersimple.dev/exercises/youtube/channel-pictures/channel-4.jpeg" alt="Avatar">
+        <div class="video-info">
+          <p class="video-title">The Simplest Math Problem No One Can Solve - Collatz Conjecture</p>
+          <p class="video-author">Veritasium</p>
+          <p class="video-stats">18M views &#183; 4 months ago</p>
+        </div>
+      </div>
+    </a>
+
+   
+    <a class="video-card" href="https://www.youtube.com/watch?v=86CQq3pKSuw" target="_blank">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://supersimple.dev/exercises/youtube/thumbnails/thumbnail-5.webp" alt="Thumbnail">
+        <div class="video-time">11:17</div>
+      </div>
+      <div class="video-info-grid">
+        <img class="profile-picture" src="https://supersimple.dev/exercises/youtube/channel-pictures/channel-5.jpeg" alt="Avatar">
+        <div class="video-info">
+          <p class="video-title">Kadane's Algorithm to Maximum Sum Subarray Problem</p>
+          <p class="video-author">CS Dojo</p>
+          <p class="video-stats">519K views &#183; 5 years ago</p>
+        </div>
+      </div>
+    </a>
+
+   
+    <a class="video-card" href="https://www.youtube.com/watch?v=yXWw0_UfSFg" target="_blank">
+      <div class="thumbnail-container">
+        <img class="thumbnail" src="https://supersimple.dev/exercises/youtube/thumbnails/thumbnail-6.webp" alt="Thumbnail">
+        <div class="video-time">19:59</div>
+      </div>
+      <div class="video-info-grid">
+        <img class="profile-picture" src="https://supersimple.dev/exercises/youtube/channel-pictures/channel-6.jpeg" alt="Avatar">
+        <div class="video-info">
+          <p class="video-title">Anything You Can Fit In The Circle I’ll Pay For</p>
+          <p class="video-author">MrBeast</p>
+          <p class="video-stats">141M views &#183; 1 year ago</p>
+        </div>
+      </div>
+    </a>
+
+  </main>
+
+</body>
+</html>
